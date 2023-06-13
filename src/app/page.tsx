@@ -2,19 +2,14 @@
 
 import Parrot from "@/utils/Parrot";
 import { SetStateAction, useState } from "react";
-
-interface ParrotInterface {
-  name: string;
-  speak: Function;
-  announce: Function;
-  learn: Function;
-}
+import { ParrotInterface } from '../interfaces/interfaces'
+import ParrotDiv from "@/components/ParrotDiv";
 
 export default function Home() {
   const [input, setInput] = useState('');
   const [parrotList, setParrotList] = useState<ParrotInterface[]>([])
 
-  function handleChange(event: { target: { value: SetStateAction<string>; }; }) {
+  function handleChange(event: { target: { value: string; }; }) {
     setInput(event.target.value)
   }
   
@@ -28,8 +23,14 @@ export default function Home() {
     })
   }
 
+  const parrotElements = parrotList.map((parrot, index) => {
+    return (
+      <ParrotDiv key={index} parrot={parrot} />
+    )
+  })
+
   return (
-    <div>
+    <div className='flex flex-col'>
       <div className="flex flex-col items-center">
         <label className="">
           Name:
@@ -49,10 +50,9 @@ export default function Home() {
           Create New Parrot
         </button>
       </div>
-
-      <div>
-
         
+      <div className="grid ">
+        {parrotElements}
       </div>
     </div>
   )
